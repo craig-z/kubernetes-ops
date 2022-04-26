@@ -143,17 +143,17 @@ locals {
   
 }
 
-resource "null_resource" "patch" {
-  triggers = {
-    kubeconfig = base64encode(local.kubeconfig)    
-    cmd_patch  = "echo $KUBECONFIG | base64 -d > ./kubeconfig; echo \"${local.full_aws_auth_configmap}\" | ${var.kubectl_binary} apply -n kube-system --kubeconfig ./kubeconfig -f -"
-  }
+# resource "null_resource" "patch" {
+#   triggers = {
+#     kubeconfig = base64encode(local.kubeconfig)    
+#     cmd_patch  = "echo $KUBECONFIG | base64 -d > ./kubeconfig; echo \"${local.full_aws_auth_configmap}\" | ${var.kubectl_binary} apply -n kube-system --kubeconfig ./kubeconfig -f -"
+#   }
 
-  provisioner "local-exec" {
-    interpreter = ["/bin/bash", "-c"]
-    environment = {
-      KUBECONFIG = self.triggers.kubeconfig
-    }
-    command = self.triggers.cmd_patch
-  }
-}
+#   provisioner "local-exec" {
+#     interpreter = ["/bin/bash", "-c"]
+#     environment = {
+#       KUBECONFIG = self.triggers.kubeconfig
+#     }
+#     command = self.triggers.cmd_patch
+#   }
+# }
